@@ -12,8 +12,10 @@ them together and the command line (__main__.py).
 
 from docscan.exceptions import DocumentNotFound, InvalidImage, ScanError
 from docscan.imageio import Photo, encode_png, from_pil, read_photo, to_pil
+from docscan.detection import ContourDetector, Detector, order_corners
 
 __all__ = [
     "DocumentNotFound", "InvalidImage", "Photo", "ScanError",
     "encode_png", "from_pil", "read_photo", "to_pil",
+    "ContourDetector", "Detector", "order_corners"
 ]

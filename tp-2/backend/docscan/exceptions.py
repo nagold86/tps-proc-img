@@ -17,8 +17,13 @@ class InvalidImage(ScanError):
 
 
 class DocumentNotFound(ScanError):
-    """The photo is valid, but no document could be recognized in it.
+    """The photo is valid, but no document could be recognized in it."""
 
-    TODO (team): raise it from the detector, with a message (in Spanish) that
-    explains what happened and how to take a better photo.
-    """
+    DEFAULT_MESSAGE = (
+        "No se encontró un documento en la foto. Asegurate de que se vean las cuatro "
+        "esquinas, que la hoja ocupe buena parte de la imagen y que haya contraste "
+        "con el fondo."
+    )
+
+    def __init__(self, message: str | None = None) -> None:
+        super().__init__(message or self.DEFAULT_MESSAGE)
