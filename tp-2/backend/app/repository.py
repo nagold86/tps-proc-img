@@ -49,7 +49,7 @@ class ScanRepository:
 
         # 3. Armar y guardar metadatos JSON
         h, w = scan_image.shape[:2]
-        now = datetime.now(timezone.utc).isoformat()
+        now = datetime.now(timezone.utc).isoformat().replace("Z", "+00:00")
 
         meta = {
             "id": scan_id,

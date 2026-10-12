@@ -4,11 +4,10 @@ Input/output schemas of the API: the contract with the frontend and the tests.
 The field names and types must not change. You can add validators or new
 schemas for the extras.
 """
-
 from datetime import datetime
 from typing import Literal
+from pydantic import BaseModel, Field, field_serializer
 
-from pydantic import BaseModel, Field
 
 ColorMode = Literal["color", "grayscale", "bw"]
 Point = list[float]  # [x, y] in pixels of the photo
@@ -43,6 +42,11 @@ class ScanOut(BaseModel):
     options: ScanOptions
     created_at: datetime
 
+    @field_serializer("created_at")
+    def serialize_created_at(self, dt: datetime, _info) -> str:
+        # En Python 3.10 fromisoformat() no tolera 'Z'; se formatea con +00:00 o sin offset
+        return dt.isoformat().replace("Z", "+00:00")
+
     model_config = {"json_schema_extra": {"example": {
         "id": "0b6f1c2e9a4d4e0f8c1f3b7a2d9e6c41",
         "original_name": "invoice.jpg",
@@ -53,7 +57,6 @@ class ScanOut(BaseModel):
         "options": {"color_mode": "grayscale", "color_correction": True, "soften_colors": 0.5},
         "created_at": "2026-10-07T15:42:10",
     }}}
-
 
 class ErrorDetail(BaseModel):
     code: str
